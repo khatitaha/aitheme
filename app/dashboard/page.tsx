@@ -28,7 +28,7 @@ const DashBoard = (props: Props) => {
                         />
                         <Button className="ml-4">
                             <Upload className="mr-2 h-4 w-4" />
-                            Scan Now
+                            Scan Now , chaning later
                         </Button>
                     </div>
                 </CardContent>
