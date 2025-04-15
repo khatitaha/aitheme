@@ -30,6 +30,7 @@ const DashBoard = (props: Props) => {
                             <Upload className="mr-2 h-4 w-4" />
                             Scan Now , chaning later
                             chaning this now for somereason
+                            exactly
                         </Button>
                     </div>
                 </CardContent>
