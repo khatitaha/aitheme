@@ -44,9 +44,44 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    if (request.nextUrl.pathname === "/" && !user.error) {
-      return NextResponse.redirect(new URL("/protected", request.url));
+
+    // Check for admin role on /admin routes
+    if (request.nextUrl.pathname.startsWith("/admin")) {
+      if (user.error) {
+        // No authenticated user, redirect to sign-in
+        console.log("Redirecting unauthenticated user from /admin");
+        return NextResponse.redirect(new URL("/sign-in", request.url));
+      } else {
+        // User is authenticated, now check their role in the profiles table
+        const { data: profile, error: profileError } = await supabase
+          .from("profile")
+          .select("role")
+          .eq("id", user.data.user?.id)
+          .single(); // Use single() assuming one profile per user
+
+        if (profileError || !profile || profile.role !== "admin") {
+          // Profile not found, role is not admin, or error fetching profile
+          console.log(
+            "Redirecting non-admin user from /admin. Profile error:",
+            profileError,
+            "Profile data:",
+            profile,
+          );
+          // Redirect to sign-in or an unauthorized page
+          return NextResponse.redirect(new URL("/sign-in", request.url));
+        }
+        // If profile exists and role is 'admin', allow access
+      }
     }
+
+
+
+
+
+
+    // if (request.nextUrl.pathname === "/" && !user.error) {
+    //   return NextResponse.redirect(new URL("/protected", request.url));
+    // }
 
     return response;
   } catch (e) {

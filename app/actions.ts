@@ -53,7 +53,7 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  return redirect("/protected");
+  return redirect("/home");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -127,8 +127,53 @@ export const resetPasswordAction = async (formData: FormData) => {
   encodedRedirect("success", "/protected/reset-password", "Password updated");
 };
 
-export const signOutAction = async () => {
+export const signOutAction = async (formData: FormData) => {
+  console.log("Signing out");
   const supabase = await createClient();
   await supabase.auth.signOut();
-  return redirect("/sign-in");
+  redirect("/");
 };
+
+
+export const editProfile = async (formData: FormData) => {
+  const supabase = await createClient();
+
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+  if (!user || userError) {
+    return encodedRedirect("error", "/protected/edit-profile", "User not found");
+  }
+
+  const fullName = formData.get("full_name") as string;
+  const avatarUrl = formData.get("email") as string;
+
+  // 1. Update auth.user metadata
+  const { error: authError } = await supabase.auth.updateUser({
+    data: {
+      full_name: fullName,
+      avatar_url: avatarUrl,
+    },
+  });
+
+  if (authError) {
+    return encodedRedirect("error", "/protected/edit-profile", "Failed to update user profile");
+  }
+
+  // 2. Update profiles table
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .update({
+      full_name: fullName,
+      avatar_url: avatarUrl,
+      updated_at: new Date().toISOString(), // if you have updated_at field
+    })
+    .eq('id', user.id);
+
+  if (profileError) {
+    // return encodedRedirect("error", "/protected/edit-profile", "Failed to update profile data");
+  }
+
+  // Success
+  // return encodedRedirect("success", "/protected/edit-profile", "Profile updated successfully");
+};
+

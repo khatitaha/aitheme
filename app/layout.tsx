@@ -7,6 +7,9 @@ import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
+import Navbar from "@/components/navbar";
+import BackgroundGrid from "@/components/backgrounGrid";
+import PulseBlob from "@/components/pulseBolb";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -37,15 +40,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center bg-gradient-to-b from-neutral-950 to-neutral-900">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
-
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
-                {children}
-              </div>
+          <main className="min-h-screen flex flex-col items-center   bg-gradient-to-b from-neutral-950 to-neutral-800">
 
 
-            </div>
+            {children}
+
+
+
+
           </main>
         </ThemeProvider>
       </body>
