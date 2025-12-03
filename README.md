@@ -1,5 +1,4 @@
-Here’s a clean, professional README.md you can copy-paste into GitHub.
-I wrote it based on what you described + the features shown in your PDF.
+
 🩺 Pneumonia Detection Web Platform
 An end-to-end medical web platform that allows users to create an account, upload chest X-ray scans, and receive AI-powered pneumonia classification results.
 Built with Next.js, Supabase, and a custom Deep Learning model, including authentication, premium subscriptions, admin dashboard, and fully integrated workflow from scan upload to diagnosis.
@@ -76,20 +75,7 @@ Exported and integrated into the app
   UI components
 /utils
   image preprocessing & inference
-▶️ Running the Project
-1. Clone the repository
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-2. Install dependencies
-npm install
-3. Environment variables
-Create a .env.local file:
-NEXT_PUBLIC_SUPABASE_URL=your-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-key
-SUPABASE_SERVICE_ROLE_KEY=optional
-MODEL_PATH=/models/pneumonia_model.h5
-4. Start the development server
-npm run dev
+
 📊 Results
 The AI model achieves strong performance in detecting pneumonia from chest X-rays.
 Results include:
